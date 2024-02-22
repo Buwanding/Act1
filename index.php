@@ -11,7 +11,8 @@ if ($method === "POST"){
         $gender = $_REQUEST['gender'];
         $date_of_birth = $_REQUEST['date_of_birth'];
         $course = $_REQUEST['course'];
-        $sql = "INSERT INTO tblstudents (schoolid, first_name, middle_initial, last_name, gender, date_of_birth, course) VALUES ('$schoolid', '$first_name','$middle_initial','$last_name','$gender','$date_of_birth','$course')";
+        $year_level = $_REQUEST['year_level'];
+        $sql = "INSERT INTO student (schoolid, first_name, middle_initial, last_name, gender, date_of_birth, course, year_level) VALUES ('$schoolid', '$first_name','$middle_initial','$last_name','$gender','$date_of_birth','$course','$year_level')";
         $res = $conn->query($sql);
         if ($res === TRUE) {
             echo "Record added";
@@ -29,7 +30,8 @@ elseif($method === "PUT"){
         $gender = $put_vars['gender'];
         $date_of_birth = $put_vars['date_of_birth'];
         $course = $put_vars['course'];
-        $sql = "UPDATE tblstudents SET first_name='$first_name', middle_initial='$middle_initial', last_name='$last_name', gender='$gender', date_of_birth='$date_of_birth', course='$course' WHERE schoolid='$schoolid'";
+        $year_level = $put_vars['year_level'];
+        $sql = "UPDATE student SET first_name='$first_name', middle_initial='$middle_initial', last_name='$last_name', gender='$gender', date_of_birth='$date_of_birth', course='$course' WHERE schoolid='$schoolid'";
         $res = $conn->query($sql);
         if ($res === TRUE) {
             echo "Record updated";
@@ -39,7 +41,7 @@ elseif($method === "PUT"){
 }
 elseif($method === "DELETE"){
      $schoolid = $_GET['schoolid'];
-        $sql = "DELETE FROM tblstudents WHERE schoolid='$schoolid'";
+        $sql = "DELETE FROM student WHERE schoolid='$schoolid'";
         $res = $conn->query($sql);
         if ($res === TRUE) {
             echo "Record deleted";
@@ -54,7 +56,7 @@ else{
         $data = $_GET;
         if (isset($data['search'])) {
             $search = $data['search'];
-            $sql = "SELECT * FROM tblstudents WHERE schoolid = '$search' OR first_name = '$search'";
+            $sql = "SELECT * FROM student WHERE schoolid = '$search' OR first_name = '$search'";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -64,7 +66,7 @@ else{
                 echo "No results found.";
             }
         } else {
-            $sql = "SELECT * FROM tblstudents";
+            $sql = "SELECT * FROM student";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
